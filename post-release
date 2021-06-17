@@ -31,6 +31,7 @@ if docker run -a stdout -i $IMAGE /usr/bin/dpkg -s supervisor > /dev/null; then
   echo "supervisor is already installed (skipping apt-get update/install)"
 else
   echo "supervisor is not installed (will install via apt-get)"
+  run_in_container 'grep -v "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" /etc/apt/sources.list > temp.txt; mv temp.txt /etc/apt/sources.list'
   run_in_container "apt-get update && apt-get install -y supervisor && apt-get clean"
 fi
 
